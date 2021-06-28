@@ -1,0 +1,45 @@
+[package]
+name = "heim-disk"
+version = "0.0.11"
+authors = ["svartalf <self@svartalf.info>"]
+edition = "2018"
+description = "Cross-platform disk information"
+keywords = ["heim", "system", "disk", "partition", "filesystem"]
+categories = ["asynchronous", "os", "api-bindings"]
+repository = "https://github.com/heim-rs/heim"
+readme = "README.md"
+license = "Apache-2.0 OR MIT"
+
+[badges]
+maintenance = { status = "experimental" }
+azure-devops = { project = "heim-rs/heim", pipeline = "heim-rs.heim" }
+
+[dependencies]
+heim-common = { version = "0.0.11", path = "../heim-common" }
+heim-runtime = { version = "0.0.7", path = "../heim-runtime" }
+cfg-if = "0.1.7"
+bitflags = "1.0.4"
+
+[target.'cfg(unix)'.dependencies]
+libc = "~0.2"
+
+[target.'cfg(target_os = "windows")'.dependencies]
+widestring = "0.4.0"
+
+[target.'cfg(target_os = "windows")'.dependencies.winapi]
+version = ">=0.3.8"
+features = ["std", "winnt", "ntdef", "fileapi", "handleapi",
+            "ioapiset", "winioctl", "impl-default", "errhandlingapi",
+            "winerror", "winbase", "ws2def"]
+
+[target.'cfg(target_os = "macos")'.dependencies]
+mach = "0.3.2"
+core-foundation = "0.7.0"
+
+[dev-dependencies]
+heim-derive = { version = "0.0.10", path = "../heim-derive" }
+futures-executor = "^0.3"
+version-sync = "0.8"
+
+[features]
+runtime-polyfill = ["heim-runtime/runtime-polyfill"]
